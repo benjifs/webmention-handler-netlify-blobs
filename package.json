@@ -1,0 +1,25 @@
+{
+  "name": "webmention-handler-netlify-blobs",
+  "version": "0.1.0",
+  "description": "Netlify Blobs storage to work with webmention-handler",
+  "main": "src/index.js",
+  "keywords": [
+    "webmentions",
+    "indieweb",
+    "netlify",
+    "blobs"
+  ],
+  "author": "Benji Encalada Mora (https://benji.dog)",
+  "homepage": "https://github.com/benjifs/webmention-handler-netlify-blobs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjifs/webmention-handler-netlify-blobs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benjifs/webmention-handler-netlify-blobs/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@netlify/blobs": "^9.1.1"
+  }
+}
