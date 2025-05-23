@@ -2,7 +2,7 @@
 
 [Netlify Blobs](https://docs.netlify.com/blobs/overview/) storage that works with [webmention-handler](https://github.com/vandie/webmention-handler).
 
-This project was built alongside [serverless-webmentions](https://github.com/benjifs/serverless-webmentions) so that you can host your own webmentions on Netlify. You can see a fully working sample at the [serverless-webmentions-example](https://github.com/benjifs/serverless-webmentions-example) repo.
+This project was built alongside [webmention-receiver](https://github.com/benjifs/webmention-receiver) so that you can host your own webmentions on Netlify. You can see a fully working sample at the [serverless-webmentions](https://github.com/benjifs/serverless-webmentions) repo.
 
 ## Installation
 ```sh
