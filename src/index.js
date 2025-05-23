@@ -4,8 +4,8 @@ import { getStore, listStores } from '@netlify/blobs'
 export default class BlobStorage {
 	#options
 
-	constructor({ siteID, token }) {
-		this.#options = { siteID, token }
+	constructor(options) {
+		this.#options = options // { siteID, token }
 	}
 
 	#generateId = () => Math.random().toString(36).slice(2, 10)
@@ -38,7 +38,7 @@ export default class BlobStorage {
 
 	deleteMention = async (mention) => {
 		const store = getStore({ name: 'target', ...this.#options })
-		const key = encodeURIComponent(mention.target)
+		const key = mention.target
 		const target = await store.get(key, { type: 'json' })
 		if (!target) return
 		const mentions = target.filter(m => m.source !== mention.source)
@@ -53,7 +53,7 @@ export default class BlobStorage {
 
 	getMentionsForPage = async (page, type) => {
 		const store = getStore({ name: 'target', ...this.#options })
-		const mentions = await store.get(encodeURIComponent(page), { type: 'json' })
+		const mentions = await store.get(page, { type: 'json' })
 		if (!type) return mentions
 		return mentions.filter(m => type === m.type)
 	}
@@ -65,12 +65,11 @@ export default class BlobStorage {
 
 	storeMentionsForPage = async (page, mentions) => {
 		const store = getStore({ name: 'target', ...this.#options })
-		const key = encodeURIComponent(page)
-		let target = await store.get(key, { type: 'json' }) || []
+		let target = await store.get(page, { type: 'json' }) || []
 		for (const mention of mentions) {
 			target = target.filter(m => m.source !== mention.source)
 		}
-		await store.setJSON(key, [ ...target, ...mentions ])
+		await store.setJSON(page, [ ...target, ...mentions ])
 		return mentions
 	}
 

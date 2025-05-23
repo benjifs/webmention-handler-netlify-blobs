@@ -1,6 +1,6 @@
 {
   "name": "webmention-handler-netlify-blobs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Netlify Blobs storage to work with webmention-handler",
   "main": "src/index.js",
   "keywords": [
@@ -19,6 +19,7 @@
     "url": "https://github.com/benjifs/webmention-handler-netlify-blobs/issues"
   },
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@netlify/blobs": "^9.1.1"
   }
