@@ -1,6 +1,7 @@
+import { createHash } from 'crypto'
 import { getStore, listStores } from '@netlify/blobs'
 
-// https://docs.netlify.com//blobs/overview/
+// https://docs.netlify.com/blobs/overview/
 export default class BlobStorage {
 	#options
 
@@ -8,12 +9,15 @@ export default class BlobStorage {
 		this.#options = options // { siteID, token }
 	}
 
-	#generateId = () => Math.random().toString(36).slice(2, 10)
+	// Hash the mention to use as the key
+	#generateKey = ({ source, target }) => createHash('md5').update(`${source}:${target}`).digest('hex')
 
 	addPendingMention = async (mention) => {
 		const store = getStore({ name: 'queue', ...this.#options })
-		const id = this.#generateId()
-		await store.setJSON(id, mention)
+		const id = this.#generateKey(mention)
+		// setJSON does not return an expected value with onlyIfNew
+		const { modified } = await store.set(id, JSON.stringify(mention), { onlyIfNew: true })
+		if (!modified) return
 		return {
 			_id: id,
 			...mention,
@@ -40,7 +44,8 @@ export default class BlobStorage {
 		const store = getStore({ name: 'target', ...this.#options })
 		const key = mention.target
 		const target = await store.get(key, { type: 'json' })
-		if (!target) return
+		// Array.isArray to handle an issue where sometimes this fails when calling multiple times
+		if (!target || !Array.isArray(target)) return
 		const mentions = target.filter(m => m.source !== mention.source)
 		if (!mentions) {
 			console.log(`[INFO] Delete ${mention.target} from 'target'`)
